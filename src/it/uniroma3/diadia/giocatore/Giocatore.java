@@ -35,6 +35,10 @@ public class Giocatore {
 	public void setCfu(int cfu) {
 		this.cfu = cfu;		
 	}
+	
+	public Borsa getBorsa() {
+	    return this.borsa;
+	}
 
 	//------ Metodi per accedere alla Borsa --------
 

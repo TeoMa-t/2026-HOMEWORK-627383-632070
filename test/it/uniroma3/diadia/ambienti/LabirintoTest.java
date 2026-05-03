@@ -1,4 +1,4 @@
-package diadia;
+package it.uniroma3.diadia.ambienti;
 
 import static org.junit.jupiter.api.Assertions.*;
 
