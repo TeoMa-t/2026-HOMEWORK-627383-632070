@@ -42,5 +42,12 @@ public class ComandoPosa implements Comando{
 		else
 			System.out.println("Non possiedi l'oggetto");
 	}
-
+	
+	public String getNome() {
+		return "posa";
+	}
+	
+	public String getParametro() {
+		return this.oggetto;
+	}
 }

@@ -13,5 +13,12 @@ public class ComandoNonValido implements Comando{
 	}
 	
 	public void setParametro(String parametro) {}
-
+	
+	public String getNome() {
+		return "Comando sconosciuto";
+	}
+	
+	public String getParametro() {
+		return null;
+	}
 }

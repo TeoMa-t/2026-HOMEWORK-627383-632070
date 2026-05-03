@@ -13,4 +13,12 @@ public class ComandoFine implements Comando{
 		partita.setFinita();
 		System.out.println("Grazie per aver giocato");
 	}
+	
+	public String getNome() {
+		return "fine";
+	}
+	
+	public String getParametro() {
+		return null;
+	}
 }

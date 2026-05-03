@@ -18,4 +18,12 @@ public class ComandoGuarda implements Comando{
 		
 		System.out.println(partita.getGiocatore().getContenutoBorsa());	
 	}
+	
+	public String getNome() {
+		return "guarda";
+	}
+	
+	public String getParametro() {
+		return null;
+	}
 }

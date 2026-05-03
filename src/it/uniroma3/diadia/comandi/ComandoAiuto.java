@@ -18,6 +18,14 @@ public class ComandoAiuto implements Comando{
 		System.out.println("\n");
 	}
 	
+	public String getNome() {
+		return "aiuto";
+	}
+	
+	public String getParametro() {
+		return null;
+	}
+	
 	public void setParametro(String parametro) {}
 		
 	

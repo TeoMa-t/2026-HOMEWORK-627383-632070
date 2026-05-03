@@ -9,6 +9,14 @@ import it.uniroma3.diadia.Partita;
 public class ComandoVai implements Comando{
 	private String direzione;
 	
+	public String getNome() {
+		return "vai";
+	}
+	
+	public String getParametro() {
+		return this.direzione;
+	}
+	
 	@Override
 	public void esegui(Partita partita) {
 		Stanza stanzaCorrente = partita.getStanzaCorrente();

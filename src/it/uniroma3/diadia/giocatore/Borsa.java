@@ -119,8 +119,7 @@ public class Borsa {
 					a = attrezzi[i];
 					this.attrezzi[i] = this.attrezzi[this.numeroAttrezzi - 1];
 					this.attrezzi[this.numeroAttrezzi - 1] = null;
-
-
+					this.numeroAttrezzi--;
 				}
 			}
 		return a;

@@ -62,4 +62,12 @@ public class ComandoPrendi implements Comando{
 	public void setParametro(String parametro) {
 		this.oggetto = parametro;
 	}
+	
+	public String getNome() {
+		return "prendi";
+	}
+	
+	public String getParametro() {
+		return this.oggetto;
+	}
 }
