@@ -1,7 +1,9 @@
 package it.uniroma3.diadia.comandi;
 
-import it.uniroma3.diadia.Partita;
 import java.util.Scanner;
+
+import it.uniroma3.diadia.IO;
+import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 import it.uniroma3.diadia.giocatore.Giocatore;
@@ -20,9 +22,9 @@ public class ComandoPrendi implements Comando{
 	}
 
 	@Override
-	public void esegui(Partita partita) {
+	public void esegui(Partita partita, IO io) {
 		if(oggetto == null) {
-			System.out.println("Che oggetto vuoi prendere?");
+			io.mostraMessaggio("Che oggetto vuoi prendere?");
 
 			Attrezzo[] attrezziDisponibili = partita.getStanzaCorrente().getAttrezzi();
 
@@ -30,14 +32,14 @@ public class ComandoPrendi implements Comando{
 
 			for(Attrezzo a : attrezziDisponibili) {
 				if(a != null) {
-					System.out.println(a.toString() + " | ");
+					io.mostraMessaggio(a.toString() + " | ");
 					stanzaVuota = false;
 				}
 			}
 			if(stanzaVuota)
-				System.out.println("La stanza non contiene oggetti!");
+				io.mostraMessaggio("La stanza non contiene oggetti!");
 
-			System.out.println();
+			io.mostraMessaggio("\n");
 			return;
 		}
 
@@ -48,14 +50,14 @@ public class ComandoPrendi implements Comando{
 			Attrezzo attrezzoPreso = stanzaCorrente.getAttrezzo(oggetto);
 			stanzaCorrente.removeAttrezzo(attrezzoPreso);
 			if(giocatore.mettiAttrezzonellaBorsa(attrezzoPreso))
-				System.out.println("Attrezzo messo nella borsa!");
+				io.mostraMessaggio("Attrezzo messo nella borsa!");
 			else {
-				System.out.println("Borsa piena!");
+				io.mostraMessaggio("Borsa piena!");
 				stanzaCorrente.addAttrezzo(attrezzoPreso);
 			}
 		}
 		else
-			System.out.println("Attrezzo non presente nella stanza.");
+			io.mostraMessaggio("Attrezzo non presente nella stanza.");
 	}
 	
 	@Override

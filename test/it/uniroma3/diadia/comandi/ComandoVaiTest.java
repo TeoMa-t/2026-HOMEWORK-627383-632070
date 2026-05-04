@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import it.uniroma3.diadia.IO;
+import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.ambienti.Stanza;
 
@@ -15,10 +17,12 @@ class ComandoVaiTest {
 	private ComandoVai comandoVai;
 	private Stanza partenza;
 	private Stanza destinazione;
+	private IO io;
 	
 	@BeforeEach
 	public void setUp() throws Exception {
 		this.partita = new Partita();
+		this.io = new IOConsole();
 		this.comandoVai = new ComandoVai();
 		this.partenza = new Stanza("Aula N10");
 		this.destinazione = new Stanza("Laboratorio");
@@ -30,21 +34,21 @@ class ComandoVaiTest {
 	@Test
 	public void testSpostamentoInStanzaEsistente() {
 		this.comandoVai.setParametro("nord");
-		this.comandoVai.esegui(this.partita);
+		this.comandoVai.esegui(this.partita, this.io);
 		assertEquals("Laboratorio", this.partita.getStanzaCorrente().getNome());
 	}
 	
 	@Test
 	public void testSpostamentoInStanzaNonEsistente() {
 		this.comandoVai.setParametro("Ovest");
-		this.comandoVai.esegui(this.partita);
+		this.comandoVai.esegui(this.partita, this.io);
 		assertEquals("Aula N10", this.partita.getStanzaCorrente().getNome());
 	}
 	
 	@Test
 	public void testSpostamentoSenzaDirezione() {
 		this.comandoVai.setParametro(null);
-		this.comandoVai.esegui(this.partita);
+		this.comandoVai.esegui(this.partita, this.io);
 		assertEquals("Aula N10", this.partita.getStanzaCorrente().getNome());
 	}
 }

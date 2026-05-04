@@ -1,5 +1,6 @@
 package it.uniroma3.diadia.comandi;
 
+import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.Partita;
 
 /** Classe ComandoFine che si occupa di
@@ -9,9 +10,9 @@ public class ComandoFine implements Comando{
 	
 	public void setParametro(String parametro) {}
 	
-	public void esegui(Partita partita) {
+	public void esegui(Partita partita, IO io) {
 		partita.setFinita();
-		System.out.println("Grazie per aver giocato");
+		io.mostraMessaggio("Grazie per aver giocato");
 	}
 	
 	public String getNome() {

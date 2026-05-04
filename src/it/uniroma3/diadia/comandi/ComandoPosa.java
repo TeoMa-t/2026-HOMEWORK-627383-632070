@@ -1,5 +1,6 @@
 package it.uniroma3.diadia.comandi;
 
+import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
@@ -17,13 +18,13 @@ public class ComandoPosa implements Comando{
 	}
 
 	@Override
-	public void esegui(Partita partita) {
+	public void esegui(Partita partita, IO io) {
 		Giocatore giocatore = partita.getGiocatore();
 
 		if(oggetto == null) {
-			System.out.println("Quale oggetto vuoi posare?");
-			System.out.println(giocatore.getContenutoBorsa());
-			System.out.println("\n");
+			io.mostraMessaggio("Quale oggetto vuoi posare?");
+			io.mostraMessaggio(giocatore.getContenutoBorsa());
+			io.mostraMessaggio("\n");
 			return;
 		}
 		Stanza stanzaCorrente = partita.getStanzaCorrente();
@@ -32,15 +33,15 @@ public class ComandoPosa implements Comando{
 		if( attrezzoDaPosare != null) {
 
 			if(stanzaCorrente.addAttrezzo(attrezzoDaPosare)) {
-				System.out.println("Oggetto posato");
+				io.mostraMessaggio("Oggetto posato");
 			}
 			else {
-				System.out.println("Stanza piena");
+				io.mostraMessaggio("La stanza è piena");
 				giocatore.mettiAttrezzonellaBorsa(attrezzoDaPosare);
 			}
 		}
 		else
-			System.out.println("Non possiedi l'oggetto");
+			io.mostraMessaggio("Non hai questo oggetto");
 	}
 	
 	public String getNome() {

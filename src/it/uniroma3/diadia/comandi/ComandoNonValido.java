@@ -1,4 +1,5 @@
 package it.uniroma3.diadia.comandi;
+import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.Partita;
 
 /** Classe ComandoNonValido che si occupa di
@@ -8,8 +9,8 @@ import it.uniroma3.diadia.Partita;
  */
 public class ComandoNonValido implements Comando{
 	
-	public void esegui(Partita partita) {
-		System.out.println("Comando sconosciuto");
+	public void esegui(Partita partita, IO io) {
+		io.mostraMessaggio("Comando sconosciuto");
 	}
 	
 	public void setParametro(String parametro) {}

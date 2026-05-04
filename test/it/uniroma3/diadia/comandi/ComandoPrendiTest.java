@@ -6,10 +6,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import it.uniroma3.diadia.IO;
+import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
-import it.uniroma3.diadia.giocatore.Borsa;
 
 class ComandoPrendiTest {
 	
@@ -17,10 +18,12 @@ class ComandoPrendiTest {
 	private Stanza stanza;
 	private Attrezzo attrezzo;
 	private ComandoPrendi comandoPrendi;
+	private IO io;
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		this.partita = new Partita();
+		this.io = new IOConsole();
 		this.comandoPrendi = new ComandoPrendi();
 		this.stanza = new Stanza("Aula N10");
 		this.attrezzo = new Attrezzo("spada", 5);
@@ -32,7 +35,7 @@ class ComandoPrendiTest {
 	@Test
 	public void testAttrezzoPresoCorrettamente() {
 		this.comandoPrendi.setParametro("spada");
-		this.comandoPrendi.esegui(this.partita);
+		this.comandoPrendi.esegui(this.partita, this.io);
 		
 		assertFalse(this.stanza.hasAttrezzo("spada"));
 		assertTrue(this.partita.getGiocatore().getBorsa().hasAttrezzo("spada"));
@@ -41,7 +44,7 @@ class ComandoPrendiTest {
 	@Test
 	public void testAttrezzoInesistente() {
 		this.comandoPrendi.setParametro("osso");
-		this.comandoPrendi.esegui(this.partita);
+		this.comandoPrendi.esegui(this.partita, this.io);
 		
 		assertFalse(this.partita.getGiocatore().getBorsa().hasAttrezzo("osso"));
 	}
@@ -52,7 +55,7 @@ class ComandoPrendiTest {
 		this.stanza.addAttrezzo(martello);
 		
 		this.comandoPrendi.setParametro("martello");
-		this.comandoPrendi.esegui(this.partita);
+		this.comandoPrendi.esegui(this.partita, this.io);
 		
 		assertFalse(this.partita.getGiocatore().getBorsa().hasAttrezzo("martello"));
 		assertTrue(this.stanza.hasAttrezzo("martello"));
@@ -64,7 +67,7 @@ class ComandoPrendiTest {
 			this.partita.getGiocatore().getBorsa().addAttrezzo(new Attrezzo("oggetto" + i, 1));
 		}
 		this.comandoPrendi.setParametro("spada");
-		this.comandoPrendi.esegui(this.partita);
+		this.comandoPrendi.esegui(this.partita, this.io);
 		
 		assertTrue(this.stanza.hasAttrezzo("spada"));
 		assertFalse(this.partita.getGiocatore().getBorsa().hasAttrezzo("spada"));

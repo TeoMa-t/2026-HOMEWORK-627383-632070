@@ -8,7 +8,7 @@ import java.util.Scanner;
  * @author 627383 - 632070
  * @version base
  */
-public class IOConsole {
+public class IOConsole implements IO{
 
 	//Mostra il messaggio in output
 	public void mostraMessaggio(String msg) {
