@@ -1,7 +1,5 @@
 package it.uniroma3.diadia.comandi;
 
-import java.util.Scanner;
-
 import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.ambienti.Stanza;
@@ -14,8 +12,6 @@ import it.uniroma3.diadia.giocatore.Giocatore;
  */
 public class ComandoPrendi implements Comando{
 	private String oggetto;
-	private Scanner scanner;
-	
 	
 	public void Comandoprendi(String oggetto) {
 		this.oggetto = oggetto;
