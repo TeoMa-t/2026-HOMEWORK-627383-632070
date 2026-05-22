@@ -23,8 +23,12 @@ public class Partita {
 	private boolean finita;
 
 	//--------- Costruttore ----------
-	public Partita(){
-		this.labirinto = new Labirinto();
+	public Partita() {
+		this(new Labirinto());
+	}
+	
+	public Partita(Labirinto labirinto){
+		this.labirinto = labirinto;
 		this.finita = false;
 		this.giocatore= new Giocatore();
 		this.setStanzaCorrente(labirinto.getStanzaIniziale());
@@ -49,6 +53,14 @@ public class Partita {
 
 	public Giocatore getGiocatore() {
 		return this.giocatore;
+	}
+	
+	public void setLabirinto(Labirinto labirinto) {
+		this.labirinto = labirinto;
+	}
+	
+	public Labirinto getLabirinto() {
+		return this.labirinto;
 	}
 	//--------- Metodi ---------
 	/**

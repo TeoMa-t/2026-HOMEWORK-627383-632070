@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import it.uniroma3.diadia.ambienti.Labirinto;
+
 class DiaDiaTest {
 
 	@Test
@@ -17,9 +19,10 @@ class DiaDiaTest {
 		
 		// 2. Creiamo il finto I/O passandogli la lista di comandi
 		IOSimulator io = new IOSimulator(comandiDaEseguire);
+		Labirinto labirinto = new Labirinto();
 		
 		// 3. Facciamo partire il gioco passandogli il finto I/O
-		DiaDia gioco = new DiaDia(io);
+		DiaDia gioco = new DiaDia(labirinto, io);
 		gioco.gioca();
 		
 		// 4. Verifichiamo l'output!

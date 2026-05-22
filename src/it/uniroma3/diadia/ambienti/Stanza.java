@@ -26,11 +26,8 @@ public class Stanza {
 
 	private Map<String, Attrezzo> attrezzi;
 
-	private Stanza[] stanzeAdiacenti;
-	private int numeroStanzeAdiacenti;
-
-	private String[] direzioni;
-
+	private Map<String, Stanza> stanzeAdiacenti;
+	
 	//--------- Costruttore ----------
 	/**
 	 * Crea una stanza. Non ci sono stanze adiacenti, non ci sono attrezzi.
@@ -38,9 +35,7 @@ public class Stanza {
 	 */
 	public Stanza(String nome) {
 		this.nome = nome;
-		this.numeroStanzeAdiacenti = 0;
-		this.direzioni = new String[NUMERO_MASSIMO_DIREZIONI];
-		this.stanzeAdiacenti = new Stanza[NUMERO_MASSIMO_DIREZIONI];
+		this.stanzeAdiacenti = new HashMap<>();
 		this.attrezzi = new HashMap<>();
 	}
 
@@ -50,11 +45,7 @@ public class Stanza {
 	 * @param direzione
 	 */
 	public Stanza getStanzaAdiacente(String direzione) {
-		Stanza stanza = null;
-		for(int i=0; i<this.numeroStanzeAdiacenti; i++)
-			if (this.direzioni[i].equals(direzione))
-				stanza = this.stanzeAdiacenti[i];
-		return stanza;
+		return this.stanzeAdiacenti.get(direzione);
 	}
 
 	/**
@@ -86,10 +77,7 @@ public class Stanza {
 	 * @return direzioni
 	 */
 	public String[] getDirezioni() {
-		String[] direzioni = new String[this.numeroStanzeAdiacenti];
-		for(int i=0; i<this.numeroStanzeAdiacenti; i++)
-			direzioni[i] = this.direzioni[i];
-		return direzioni;
+		return this.stanzeAdiacenti.keySet().toArray(new String[0]);
 	}
 
 
@@ -102,18 +90,8 @@ public class Stanza {
 	 * @param stanza stanza adiacente nella direzione indicata dal primo parametro.
 	 */
 	public void impostaStanzaAdiacente(String direzione, Stanza stanza) {
-		boolean aggiornato = false;
-		for(int i=0; i<this.direzioni.length; i++)
-			if (direzione.equals(this.direzioni[i])) {
-				this.stanzeAdiacenti[i] = stanza;
-				aggiornato = true;
-			}
-		if (!aggiornato)
-			if (this.numeroStanzeAdiacenti < NUMERO_MASSIMO_DIREZIONI) {
-				this.direzioni[numeroStanzeAdiacenti] = direzione;
-				this.stanzeAdiacenti[numeroStanzeAdiacenti] = stanza;
-				this.numeroStanzeAdiacenti++;
-			}
+		if(this.stanzeAdiacenti.size() < NUMERO_MASSIMO_DIREZIONI || this.stanzeAdiacenti.containsKey(direzione))
+			this.stanzeAdiacenti.put(direzione, stanza);
 	}
 
 	/**
@@ -138,9 +116,10 @@ public class Stanza {
 		StringBuilder risultato = new StringBuilder();
 		risultato.append("Nome stanza: " + this.nome);
 		risultato.append("\nUscite: ");
-		for (String direzione : this.direzioni)
+		for (String direzione : this.stanzeAdiacenti.keySet())
 			if (direzione!=null)
 				risultato.append(" " + direzione);
+		
 		risultato.append("\nAttrezzi nella stanza: ");
 		
 		for(Attrezzo attrezzo : this.attrezzi.values()) 
@@ -178,5 +157,9 @@ public class Stanza {
 			return true;
 		}
 		return false;
+	}
+	
+	public boolean hasAdiacente(String direzione) {
+	    return this.getStanzaAdiacente(direzione) != null;
 	}
 }

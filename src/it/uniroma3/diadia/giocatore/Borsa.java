@@ -1,10 +1,18 @@
 package it.uniroma3.diadia.giocatore;
 
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import it.uniroma3.diadia.attrezzi.Attrezzo;
+import it.uniroma3.diadia.attrezzi.ComparatoreAttrezziPerPeso;
 
 /*
  * Classe Borsa - è la classe cheviene generata assieme
@@ -94,7 +102,7 @@ public class Borsa {
 	 * @return
 	 */
 	public boolean isFull( ) {
-	   return getPeso() >= 10;
+	   return getPeso() >= this.getPesoMax();
 	}
 
 	/**
@@ -112,18 +120,11 @@ public class Borsa {
 	 * @return
 	 */
 	public Attrezzo removeAttrezzo(String nomeAttrezzo) {
-		
-		Attrezzo a = null;
-		
-		for(Attrezzo attrezzo : this.attrezzi) {
-			if(attrezzo.getNome().equals(nomeAttrezzo)) {
-				a = attrezzo;
-				this.attrezzi.remove(attrezzo);
-				break;
-			}
-		}
-		
-		return a;
+		Attrezzo a = this.getAttrezzo(nomeAttrezzo);
+	    if (a != null) {
+	        this.attrezzi.remove(a);
+	    }
+	    return a;
 	}
 
 	//ci restituisce una descrizione degli oggetti in borsa
@@ -138,5 +139,36 @@ public class Borsa {
 		else
 			s.append("Borsa vuota");
 		return s.toString();
+	}
+	
+	public List<Attrezzo> getContenutoOrdinatoPerPeso() {
+		List<Attrezzo> risultato = new ArrayList<>(this.attrezzi);
+		Collections.sort(risultato, new ComparatoreAttrezziPerPeso());
+		return risultato;
+	}
+	
+	public SortedSet<Attrezzo> getContenutoOrdinatoPerNome() {
+		SortedSet<Attrezzo> risultato = new TreeSet<>(this.attrezzi);
+		return risultato;
+	}
+	
+	public SortedSet<Attrezzo> getSortedSetOrdinatoPerPeso() {
+		SortedSet<Attrezzo> risultato = new TreeSet<>(new ComparatoreAttrezziPerPeso());
+		risultato.addAll(this.attrezzi);
+		return risultato;
+	}
+	
+	public Map<Integer, Set<Attrezzo>> getContenutoRaggruppatoPerPeso() {
+		Map<Integer, Set<Attrezzo>> mappa = new TreeMap<>();
+		
+		for(Attrezzo attrezzo : this.attrezzi) {
+			int peso = attrezzo.getPeso();
+			
+			if(!mappa.containsKey(peso))
+				mappa.put(peso, new TreeSet<>());
+			
+			mappa.get(peso).add(attrezzo);
+		}
+		return mappa;
 	}
 }
