@@ -66,11 +66,16 @@ public class Labirinto {
 		stanzaVincente = biblioteca;
 	}
 	//--------- Getter e Setter ----------
+	
+	public Map<String, Stanza> getListaStanze() {
+    	return this.stanze;
+    }
+	
 	public Stanza getStanzaVincente() {
 		return this.stanzaVincente;
 	}
 
-
+    
 	public Stanza getStanzaIniziale() {
 		return this.stanzaIniziale;
 	}

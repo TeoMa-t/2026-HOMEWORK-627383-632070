@@ -3,6 +3,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.ArrayList;
 
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
@@ -41,6 +42,13 @@ public class Stanza {
 
 	//------------- Getter e Setter --------------
 	/**
+	 * Restituisce tutte le stanze adiacenti di una specifica stanza
+	 * @return
+	 */
+	public Map<String, Stanza> getMapStanzeAdiacenti() {
+		return this.stanzeAdiacenti;
+	}
+	/**
 	 * Restituisce la stanza adiacente nella direzione specificata
 	 * @param direzione
 	 */
@@ -68,16 +76,16 @@ public class Stanza {
 	 * Restituisce la collezione di attrezzi presenti nella stanza.
 	 * @return la collezione di attrezzi nella stanza.
 	 */
-	public Attrezzo[] getAttrezzi() {
-	    return this.attrezzi.values().toArray(new Attrezzo[0]);
+	public List<Attrezzo> getAttrezzi() {
+	    return new ArrayList<>(this.attrezzi.values());
 	}
 
 	/**
 	 * Restituisce direzioni stanza
 	 * @return direzioni
 	 */
-	public String[] getDirezioni() {
-		return this.stanzeAdiacenti.keySet().toArray(new String[0]);
+	public List<String> getDirezioni() {
+		return new ArrayList<>(this.stanzeAdiacenti.keySet());
 	}
 
 
@@ -145,6 +153,8 @@ public class Stanza {
 	public Attrezzo getAttrezzo(String nomeAttrezzo) {
 		return this.attrezzi.get(nomeAttrezzo);
 	}
+	
+	
 
 	/**
 	 * Rimuove un attrezzo dalla stanza (ricerca in base al nome).
@@ -161,5 +171,33 @@ public class Stanza {
 	
 	public boolean hasAdiacente(String direzione) {
 	    return this.getStanzaAdiacente(direzione) != null;
+	}
+	/**
+	 * Ritorna true se la stanza è magica
+	 * @return
+	 */
+	public boolean isMagica() {
+		return false;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+	    if (this == obj) return true;
+	    
+	    // USA instanceof: permette il confronto tra Stanza e le sue sottoclassi
+	    if (!(obj instanceof Stanza)) return false; 
+	    
+	    Stanza other = (Stanza) obj;
+	    
+	    if (this.nome == null) {
+	        return other.getNome() == null;
+	    } else {
+	        return this.nome.equals(other.getNome());
+	    }
+	}
+
+	@Override
+	public int hashCode() {
+	    return this.nome != null ? this.nome.hashCode() : 0;
 	}
 }

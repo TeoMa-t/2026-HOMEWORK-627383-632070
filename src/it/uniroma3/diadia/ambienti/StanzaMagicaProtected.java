@@ -42,4 +42,7 @@ public class StanzaMagicaProtected extends StanzaProtected{
 		return new Attrezzo(nomeInvertito.toString(), pesoRaddoppiato);
 	}
 
+	public boolean isMagica() {
+		return true;
+	}
 }

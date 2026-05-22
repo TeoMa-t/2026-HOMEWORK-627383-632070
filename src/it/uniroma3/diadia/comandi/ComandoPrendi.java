@@ -22,7 +22,7 @@ public class ComandoPrendi implements Comando{
 		if(oggetto == null) {
 			io.mostraMessaggio("Che oggetto vuoi prendere?");
 
-			Attrezzo[] attrezziDisponibili = partita.getStanzaCorrente().getAttrezzi();
+			Attrezzo[] attrezziDisponibili = partita.getStanzaCorrente().getAttrezzi().toArray(new Attrezzo[0]);
 
 			boolean stanzaVuota = true;
 

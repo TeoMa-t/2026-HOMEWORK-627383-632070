@@ -54,5 +54,22 @@ public class Attrezzo implements Comparable<Attrezzo>{
 	public int compareTo(Attrezzo altro) {
 		return this.getNome().compareTo(altro.getNome());
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+	    if (this == obj) return true;
+	    if (obj == null || getClass() != obj.getClass()) return false;
+	    Attrezzo other = (Attrezzo) obj;
+	    if (this.nome == null) {
+	        return other.nome == null;
+	    } else {
+	        return this.nome.equals(other.nome);
+	    }
+	}
+
+	@Override
+	public int hashCode() {
+	    return this.nome != null ? this.nome.hashCode() : 0;
+	}
 
 }

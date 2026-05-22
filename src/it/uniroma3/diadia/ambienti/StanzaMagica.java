@@ -41,4 +41,8 @@ public class StanzaMagica extends Stanza{
         // Creiamo e restituiamo il nuovo attrezzo magico
         return new Attrezzo(nomeInvertito.toString(), pesoRaddoppiato);
     }
+    
+    public boolean isMagica() {
+    	return true;
+    }
 }

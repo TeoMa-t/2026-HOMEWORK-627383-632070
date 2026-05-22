@@ -30,4 +30,5 @@ public class StanzaBloccata extends Stanza{
         
         return avviso + super.getDescrizione();
     }
+    
 }
