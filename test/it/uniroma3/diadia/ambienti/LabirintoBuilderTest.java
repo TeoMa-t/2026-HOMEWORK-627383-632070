@@ -31,9 +31,9 @@ class LabirintoBuilderTest {
 	    assertEquals("Bar", lab.getStanzaIniziale().getNome());
 	    assertEquals("Mensa", lab.getStanzaVincente().getNome());
 	    
-	    assertTrue(lab.getStanza("Bar").hasAdiacente("nord"));
 	    assertTrue(lab.getStanza("Bar").hasAdiacente("ovest"));
-	    assertTrue(lab.getStanza("Bar").hasAttrezzo("Osso"));
+	    assertTrue(lab.getStanza("Bar").hasAdiacente("nord"));
+	    assertTrue(lab.getStanza("Laboratorio").hasAttrezzo("Osso"));
 	}
 
 }
