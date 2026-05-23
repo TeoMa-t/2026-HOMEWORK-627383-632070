@@ -108,7 +108,7 @@ public class Stanza {
 	 * @return true se riesce ad aggiungere l'attrezzo, false atrimenti.
 	 */
 	public boolean addAttrezzo(Attrezzo attrezzo) {
-		if(attrezzo != null) {
+		if(attrezzo != null && this.attrezzi.size() < NUMERO_MASSIMO_ATTREZZI) {
 			this.attrezzi.put(attrezzo.getNome(), attrezzo);
 			return true;
 		}

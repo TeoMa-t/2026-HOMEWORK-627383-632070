@@ -1,6 +1,8 @@
  package it.uniroma3.diadia;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class IOSimulator implements IO {
 
@@ -10,6 +12,9 @@ public class IOSimulator implements IO {
 	private List<String> messaggiProdotti;
 	private int indiceMessaggiMostrati;
 	private int indiceMessaggiLetti;
+	
+	private Map<String, List<String>> logMessaggi;
+	private String comandoAttuale;
 
 	/**
 	 * Costruttore: riceve la lista dei comandi che il "finto utente" digiterà.
@@ -20,6 +25,8 @@ public class IOSimulator implements IO {
 		this.messaggiProdotti = new ArrayList<>();
 		this.indiceMessaggiMostrati = 0;
 		this.indiceMessaggiLetti = 0;
+		this.logMessaggi = new HashMap<>();
+		this.comandoAttuale = "Inizio Partita";
 	}
 
 	@Override
@@ -28,6 +35,7 @@ public class IOSimulator implements IO {
 		if (this.indiceRigheDaLeggere < this.righeDaLeggere.size()) {
 			String riga = this.righeDaLeggere.get(this.indiceRigheDaLeggere);
 			this.indiceRigheDaLeggere++;
+			this.comandoAttuale = riga;
 			return riga;
 		} else {
 			return null;
@@ -39,6 +47,11 @@ public class IOSimulator implements IO {
 		// Invece di fare System.out.println, salviamo il messaggio nella lista
 		this.messaggiProdotti.add(messaggio);
 		this.indiceMessaggiMostrati++;
+		
+		if(!this.logMessaggi.containsKey(this.comandoAttuale)) 
+			this.logMessaggi.put(this.comandoAttuale, new ArrayList<>());
+		this.logMessaggi.get(this.comandoAttuale).add(messaggio);
+		
 	}
 
 	// --- METODI EXTRA PER I TEST ---
@@ -55,9 +68,15 @@ public class IOSimulator implements IO {
 			return null;
 		}
 	}
+	
+	
 
 	public boolean hasNextMessaggio() {
 		return this.indiceMessaggiLetti < this.indiceMessaggiMostrati;
+	}
+	
+	public Map<String, List<String>> getLogMessaggi(){
+		return this.logMessaggi;
 	}
 
 	public List<String> getMessaggiProdotti() {
