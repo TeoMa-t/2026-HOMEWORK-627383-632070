@@ -10,6 +10,8 @@ import it.uniroma3.diadia.ambienti.Stanza;
 public class ComandoVai implements Comando{
 	private String direzione;
 	
+	public ComandoVai() {}
+	
 	public String getNome() {
 		return "vai";
 	}

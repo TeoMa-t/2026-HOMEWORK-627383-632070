@@ -11,6 +11,8 @@ import it.uniroma3.diadia.giocatore.Borsa;
  */
 public class ComandoGuarda implements Comando{
 	
+	public ComandoGuarda() {}
+	
 	public void setParametro(String parametro) {}
 	
 	public void esegui(Partita partita, IO io) {

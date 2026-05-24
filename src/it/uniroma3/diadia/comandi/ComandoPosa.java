@@ -13,6 +13,8 @@ import it.uniroma3.diadia.giocatore.Giocatore;
 public class ComandoPosa implements Comando{
 	private String oggetto;
 	
+	public ComandoPosa() {}
+	
 	public void setParametro(String parametro) {
 		this.oggetto = parametro;
 	}

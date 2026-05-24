@@ -9,6 +9,8 @@ import it.uniroma3.diadia.Partita;
  */
 public class ComandoNonValido implements Comando{
 	
+	public ComandoNonValido() {}
+	
 	public void esegui(Partita partita, IO io) {
 		io.mostraMessaggio("Comando sconosciuto");
 	}

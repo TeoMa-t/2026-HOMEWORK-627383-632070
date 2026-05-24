@@ -13,7 +13,7 @@ import it.uniroma3.diadia.ambienti.Labirinto;
 class DiaDiaTest {
 
 	@Test
-	public void testPartitaConComandoFine() {
+	public void testPartitaConComandoFine() throws Exception {
 		// 1. Prepariamo i comandi da dare in pasto al gioco
 		List<String> comandiDaEseguire = new ArrayList<>();
 		comandiDaEseguire.add("fine");

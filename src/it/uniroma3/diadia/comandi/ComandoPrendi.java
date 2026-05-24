@@ -13,6 +13,8 @@ import it.uniroma3.diadia.giocatore.Giocatore;
 public class ComandoPrendi implements Comando{
 	private String oggetto;
 	
+	public ComandoPrendi() {}
+	
 	public void Comandoprendi(String oggetto) {
 		this.oggetto = oggetto;
 	}

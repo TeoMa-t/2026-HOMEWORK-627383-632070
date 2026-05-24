@@ -8,6 +8,8 @@ import it.uniroma3.diadia.Partita;
  */
 public class ComandoFine implements Comando{
 	
+	public ComandoFine() {}
+	
 	public void setParametro(String parametro) {}
 	
 	public void esegui(Partita partita, IO io) {

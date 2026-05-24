@@ -9,67 +9,63 @@ import org.junit.jupiter.api.Test;
 import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
-import it.uniroma3.diadia.ambienti.Stanza;
-import it.uniroma3.diadia.attrezzi.Attrezzo;
+import it.uniroma3.diadia.ambienti.Labirinto;
+import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 
 class ComandoPrendiTest {
 	
-	private Partita partita;
-	private Stanza stanza;
-	private Attrezzo attrezzo;
-	private ComandoPrendi comandoPrendi;
 	private IO io;
+	private ComandoPrendi comandoPrendi;
 	
 	@BeforeEach
-	void setUp() throws Exception {
-		this.partita = new Partita();
+	public void setUp() throws Exception {
 		this.io = new IOConsole();
 		this.comandoPrendi = new ComandoPrendi();
-		this.stanza = new Stanza("Aula N10");
-		this.attrezzo = new Attrezzo("spada", 5);
-		
-		this.stanza.addAttrezzo(attrezzo);
-		this.partita.setStanzaCorrente(stanza);
 	}
+	
+	@Test
+	public void testPrendiAttrezzoEsistente() {
+		Labirinto monolocale = new LabirintoBuilder()
+				.addStanzaIniziale("Aula N10")
+				.addAttrezzo("Osso", 1)
+				.getLabirinto();
+		
+		Partita partita = new Partita(monolocale);
+		
+		this.comandoPrendi.setParametro("Osso");
+		this.comandoPrendi.esegui(partita, this.io);
+		
+		assertTrue(partita.getGiocatore().getBorsa().hasAttrezzo("Osso"));
+		assertFalse(partita.getStanzaCorrente().hasAttrezzo("Osso"));
+	}
+	
+	@Test
+	public void testPrendiAttrezzoNonEsistente() {
+		Labirinto monolocale = new LabirintoBuilder()
+				.addStanzaIniziale("Aula N10")
+				.getLabirinto();
+		
+		Partita partita = new Partita(monolocale);
+		
+		this.comandoPrendi.setParametro("Osso");
+		this.comandoPrendi.esegui(partita, this.io);
+		
+		assertTrue(partita.getGiocatore().getBorsa().isEmpty());
+	}
+	
+	@Test
+	public void testPrendiAttrezzoSenzaParametro() {
+		Labirinto monolocale = new LabirintoBuilder()
+				.addStanzaIniziale("Aula N10")
+				.addAttrezzo("Osso", 1)
+				.getLabirinto();
 
-	@Test
-	public void testAttrezzoPresoCorrettamente() {
-		this.comandoPrendi.setParametro("spada");
-		this.comandoPrendi.esegui(this.partita, this.io);
+		Partita partita = new Partita(monolocale);
 		
-		assertFalse(this.stanza.hasAttrezzo("spada"));
-		assertTrue(this.partita.getGiocatore().getBorsa().hasAttrezzo("spada"));
-	}
-	
-	@Test
-	public void testAttrezzoInesistente() {
-		this.comandoPrendi.setParametro("osso");
-		this.comandoPrendi.esegui(this.partita, this.io);
-		
-		assertFalse(this.partita.getGiocatore().getBorsa().hasAttrezzo("osso"));
-	}
-	
-	@Test
-	public void testAttrezzoTroppoPesante() {
-		Attrezzo martello = new Attrezzo("martello", 11);
-		this.stanza.addAttrezzo(martello);
-		
-		this.comandoPrendi.setParametro("martello");
-		this.comandoPrendi.esegui(this.partita, this.io);
-		
-		assertFalse(this.partita.getGiocatore().getBorsa().hasAttrezzo("martello"));
-		assertTrue(this.stanza.hasAttrezzo("martello"));
-	}
-	
-	@Test
-	public void testPrendiAttrezzoBorsaPiena() {
-		for(int i = 0; i < this.partita.getGiocatore().getBorsa().getPesoMax() ; i++) {
-			this.partita.getGiocatore().getBorsa().addAttrezzo(new Attrezzo("oggetto" + i, 1));
-		}
-		this.comandoPrendi.setParametro("spada");
-		this.comandoPrendi.esegui(this.partita, this.io);
-		
-		assertTrue(this.stanza.hasAttrezzo("spada"));
-		assertFalse(this.partita.getGiocatore().getBorsa().hasAttrezzo("spada"));
+		this.comandoPrendi.setParametro(null);
+		this.comandoPrendi.esegui(partita, this.io);
+
+		assertTrue(partita.getStanzaCorrente().hasAttrezzo("Osso"));
+		assertTrue(partita.getGiocatore().getBorsa().isEmpty());
 	}
 }

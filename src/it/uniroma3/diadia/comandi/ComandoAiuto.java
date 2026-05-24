@@ -9,6 +9,8 @@ import it.uniroma3.diadia.Partita;
 
 public class ComandoAiuto implements Comando{
 	
+	public ComandoAiuto() {}
+	
 	static final private String[] elencoComandi = {"vai", "prendi","posa", "guarda", "aiuto", "fine"};
 	
 	public void esegui(Partita partita, IO io) {
