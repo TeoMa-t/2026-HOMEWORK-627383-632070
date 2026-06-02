@@ -9,12 +9,12 @@ import it.uniroma3.diadia.giocatore.Borsa;
  *  corrente, lo stato della partita e gli oggetti
  *  contenuti nella borsa
  */
-public class ComandoGuarda implements Comando{
+public class ComandoGuarda extends AbstractComando{
 	
 	public ComandoGuarda() {}
 	
-	public void setParametro(String parametro) {}
 	
+	@Override
 	public void esegui(Partita partita, IO io) {
 		io.mostraMessaggio(partita.getStanzaCorrente().getDescrizione());
 		io.mostraMessaggio("CFU rimanenti: " + partita.getGiocatore().getCfu());
@@ -29,11 +29,10 @@ public class ComandoGuarda implements Comando{
 		io.mostraMessaggio("-------------------------\n");
 	}
 	
+	@Override
 	public String getNome() {
 		return "guarda";
 	}
 	
-	public String getParametro() {
-		return null;
-	}
+	
 }

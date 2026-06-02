@@ -10,7 +10,7 @@ import it.uniroma3.diadia.giocatore.Giocatore;
  *  raccogliere al giocatore un oggetto da una
  *  stanza
  */
-public class ComandoPrendi implements Comando{
+public class ComandoPrendi extends AbstractComando{
 	private String oggetto;
 	
 	public ComandoPrendi() {}
@@ -59,15 +59,9 @@ public class ComandoPrendi implements Comando{
 	}
 	
 	@Override
-	public void setParametro(String parametro) {
-		this.oggetto = parametro;
-	}
-	
 	public String getNome() {
 		return "prendi";
 	}
 	
-	public String getParametro() {
-		return this.oggetto;
-	}
+	
 }

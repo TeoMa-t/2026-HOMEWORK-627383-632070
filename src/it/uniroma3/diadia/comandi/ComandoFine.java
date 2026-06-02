@@ -6,22 +6,21 @@ import it.uniroma3.diadia.Partita;
 /** Classe ComandoFine che si occupa di
  *   terminare la partita
  */
-public class ComandoFine implements Comando{
+public class ComandoFine extends AbstractComando{
 	
 	public ComandoFine() {}
 	
-	public void setParametro(String parametro) {}
 	
+	@Override
 	public void esegui(Partita partita, IO io) {
 		partita.setFinita();
 		io.mostraMessaggio("Grazie per aver giocato");
 	}
 	
+	@Override
 	public String getNome() {
 		return "fine";
 	}
 	
-	public String getParametro() {
-		return null;
-	}
+	
 }

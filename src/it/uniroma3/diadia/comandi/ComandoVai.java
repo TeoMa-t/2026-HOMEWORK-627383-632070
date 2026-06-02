@@ -7,19 +7,17 @@ import it.uniroma3.diadia.ambienti.Stanza;
  *  spostare il giocatore in una stanza
  *  adiacente
  */
-public class ComandoVai implements Comando{
+public class ComandoVai extends AbstractComando{
 	private String direzione;
 	
 	public ComandoVai() {}
 	
+	@Override
 	public String getNome() {
 		return "vai";
 	}
 	
-	public String getParametro() {
-		return this.direzione;
-	}
-	
+
 	@Override
 	public void esegui(Partita partita, IO io) {
 		Stanza stanzaCorrente = partita.getStanzaCorrente();
@@ -40,8 +38,5 @@ public class ComandoVai implements Comando{
 		partita.getGiocatore().setCfu(partita.getGiocatore().getCfu() - 1);
 	}
 	
-	@Override
-	public void setParametro(String parametro) {
-		this.direzione = parametro;
-	}
+	
 }

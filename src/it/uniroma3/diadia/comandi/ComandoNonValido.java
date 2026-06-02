@@ -7,21 +7,19 @@ import it.uniroma3.diadia.Partita;
  *  quando un comando inserito dall'utente 
  *  non è valido
  */
-public class ComandoNonValido implements Comando{
+public class ComandoNonValido extends AbstractComando{
 	
 	public ComandoNonValido() {}
 	
+	@Override
 	public void esegui(Partita partita, IO io) {
 		io.mostraMessaggio("Comando sconosciuto");
 	}
 	
-	public void setParametro(String parametro) {}
-	
+	@Override
 	public String getNome() {
 		return "Comando sconosciuto";
 	}
 	
-	public String getParametro() {
-		return null;
-	}
+	
 }

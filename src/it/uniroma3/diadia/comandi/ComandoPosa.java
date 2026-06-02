@@ -10,14 +10,12 @@ import it.uniroma3.diadia.giocatore.Giocatore;
  *  posare al giocatore un oggetto in 
  *  una stanza 
  */
-public class ComandoPosa implements Comando{
+public class ComandoPosa extends AbstractComando{
 	private String oggetto;
 	
 	public ComandoPosa() {}
 	
-	public void setParametro(String parametro) {
-		this.oggetto = parametro;
-	}
+	
 
 	@Override
 	public void esegui(Partita partita, IO io) {
@@ -46,11 +44,10 @@ public class ComandoPosa implements Comando{
 			io.mostraMessaggio("Non hai questo oggetto");
 	}
 	
+	@Override
 	public String getNome() {
 		return "posa";
 	}
 	
-	public String getParametro() {
-		return this.oggetto;
-	}
+	
 }
