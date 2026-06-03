@@ -1,11 +1,11 @@
 package it.uniroma3.diadia.ambienti;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.ArrayList;
 
 import it.uniroma3.diadia.attrezzi.Attrezzo;
+import it.uniroma3.diadia.personaggi.AbstractPersonaggio;
 
 /**
  * Classe Stanza - una stanza in un gioco di ruolo.
@@ -28,6 +28,8 @@ public class Stanza {
 	private Map<String, Attrezzo> attrezzi;
 
 	private Map<String, Stanza> stanzeAdiacenti;
+	
+	private AbstractPersonaggio personaggio;
 	
 	//--------- Costruttore ----------
 	/**
@@ -86,6 +88,14 @@ public class Stanza {
 	 */
 	public List<String> getDirezioni() {
 		return new ArrayList<>(this.stanzeAdiacenti.keySet());
+	}
+	
+	public void setPersonaggio(AbstractPersonaggio personaggio) {
+	    this.personaggio = personaggio;
+	}
+
+	public AbstractPersonaggio getPersonaggio() {
+	    return this.personaggio;
 	}
 
 
