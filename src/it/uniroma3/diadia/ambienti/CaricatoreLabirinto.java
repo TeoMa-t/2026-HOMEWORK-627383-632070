@@ -12,14 +12,26 @@ import java.util.Scanner;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
 public class CaricatoreLabirinto {
+	
+	/* prefisso di una singola riga di testo contenente tutti i nomi delle stanze */
 	private static final String STANZE_MARKER = "Stanze:";             
+	
+	/* prefisso di una singola riga contenente il nome della stanza iniziale */
 	private static final String STANZA_INIZIALE_MARKER = "Inizio:";    
-	private static final String STANZA_VINCENTE_MARKER = "Vincente:";  
+	
+	/* prefisso della riga contenente il nome stanza vincente */
+	private static final String STANZA_VINCENTE_MARKER = "Vincente:";
+	
+	/* prefisso della riga contenente le specifiche degli attrezzi da collocare 
+	 * nel formato <nomeAttrezzo> <peso> <nomeStanza> */
 	private static final String ATTREZZI_MARKER = "Attrezzi:";
+	
+	/* prefisso della riga contenente le specifiche dei collegamenti tra stanza 
+	 * nel formato <nomeStanzaDa> <direzione> <nomeStanzaA> */
 	private static final String USCITE_MARKER = "Uscite:";
 
 	private LineNumberReader reader;
-	private LabirintoBuilder builder; // Sostituisce la vecchia mappa
+	private LabirintoBuilder builder; // Sostituisce la mappa nella bozza
 
 	// Costruttore per l'esecuzione normale (File)
 	public CaricatoreLabirinto(String nomeFile) throws FileNotFoundException {

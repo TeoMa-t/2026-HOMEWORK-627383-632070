@@ -24,6 +24,15 @@ public class Labirinto {
 	public Labirinto(String vuoto) {
 	    this.stanze = new HashMap<>();
 	}
+	
+	/**
+	 * Metodo statico per creare il Labirinto leggendolo da un file di testo (Esercizio 15)
+	 */
+	public static Labirinto newBuilder(String nomeFile) throws Exception {
+		CaricatoreLabirinto caricatore = new CaricatoreLabirinto(nomeFile);
+		caricatore.carica();
+		return caricatore.getLabirinto();
+	}
 
 	/**
 	 * Crea tutte le stanze e le porte di collegamento
