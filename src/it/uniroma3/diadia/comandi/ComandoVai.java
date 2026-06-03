@@ -8,7 +8,6 @@ import it.uniroma3.diadia.ambienti.Stanza;
  *  adiacente
  */
 public class ComandoVai extends AbstractComando{
-	private String direzione;
 	
 	public ComandoVai() {}
 	
@@ -22,12 +21,12 @@ public class ComandoVai extends AbstractComando{
 	public void esegui(Partita partita, IO io) {
 		Stanza stanzaCorrente = partita.getStanzaCorrente();
 		Stanza prossimaStanza = null;
-		if(direzione == null) {
+		if(getParametro() == null) {
 			io.mostraMessaggio("Dove vuoi andare? Devi specificare una direzione");
 			return;
 		}
 		
-		prossimaStanza = stanzaCorrente.getStanzaAdiacente(this.direzione);
+		prossimaStanza = stanzaCorrente.getStanzaAdiacente(getParametro());
 		if(prossimaStanza == null) {
 			io.mostraMessaggio("Direzione inesistente");
 			return;

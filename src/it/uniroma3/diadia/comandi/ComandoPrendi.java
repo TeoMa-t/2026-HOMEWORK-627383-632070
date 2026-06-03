@@ -11,17 +11,14 @@ import it.uniroma3.diadia.giocatore.Giocatore;
  *  stanza
  */
 public class ComandoPrendi extends AbstractComando{
-	private String oggetto;
 	
 	public ComandoPrendi() {}
 	
-	public void Comandoprendi(String oggetto) {
-		this.oggetto = oggetto;
-	}
+	
 
 	@Override
 	public void esegui(Partita partita, IO io) {
-		if(oggetto == null) {
+		if(getParametro() == null) {
 			io.mostraMessaggio("Che oggetto vuoi prendere?");
 
 			Attrezzo[] attrezziDisponibili = partita.getStanzaCorrente().getAttrezzi().toArray(new Attrezzo[0]);
@@ -43,9 +40,9 @@ public class ComandoPrendi extends AbstractComando{
 
 		Stanza stanzaCorrente = partita.getStanzaCorrente();
 		Giocatore giocatore = partita.getGiocatore();
-		if(stanzaCorrente.hasAttrezzo(oggetto)) {
+		if(stanzaCorrente.hasAttrezzo(getParametro())) {
 
-			Attrezzo attrezzoPreso = stanzaCorrente.getAttrezzo(oggetto);
+			Attrezzo attrezzoPreso = stanzaCorrente.getAttrezzo(getParametro());
 			stanzaCorrente.removeAttrezzo(attrezzoPreso);
 			if(giocatore.mettiAttrezzonellaBorsa(attrezzoPreso))
 				io.mostraMessaggio("Attrezzo messo nella borsa!");

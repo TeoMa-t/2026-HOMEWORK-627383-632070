@@ -11,7 +11,7 @@ import it.uniroma3.diadia.giocatore.Giocatore;
  *  una stanza 
  */
 public class ComandoPosa extends AbstractComando{
-	private String oggetto;
+	
 	
 	public ComandoPosa() {}
 	
@@ -21,14 +21,14 @@ public class ComandoPosa extends AbstractComando{
 	public void esegui(Partita partita, IO io) {
 		Giocatore giocatore = partita.getGiocatore();
 
-		if(oggetto == null) {
+		if(getParametro() == null) {
 			io.mostraMessaggio("Quale oggetto vuoi posare?");
 			io.mostraMessaggio(giocatore.getContenutoBorsa());
 			io.mostraMessaggio("\n");
 			return;
 		}
 		Stanza stanzaCorrente = partita.getStanzaCorrente();
-		Attrezzo attrezzoDaPosare = giocatore.prendiAttrezzoDallaBorsa(oggetto);
+		Attrezzo attrezzoDaPosare = giocatore.prendiAttrezzoDallaBorsa(getParametro());
 
 		if( attrezzoDaPosare != null) {
 
