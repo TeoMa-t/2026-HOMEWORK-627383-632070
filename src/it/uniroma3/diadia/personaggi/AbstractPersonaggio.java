@@ -18,7 +18,7 @@ public abstract class AbstractPersonaggio {
 	}
 
 	public String getNome() {
-		return this.getNome();
+		return nome;
 	}
 	public abstract String agisci(Partita partita);
 

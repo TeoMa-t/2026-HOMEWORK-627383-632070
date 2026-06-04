@@ -6,7 +6,8 @@ import it.uniroma3.diadia.ambienti.Labirinto;
 import it.uniroma3.diadia.comandi.Comando;
 import it.uniroma3.diadia.comandi.FabbricaDiComandi;
 import it.uniroma3.diadia.comandi.FabbricaDiComandiRiflessiva;
-
+import it.uniroma3.diadia.attrezzi.Attrezzo;
+import it.uniroma3.diadia.attrezzi.*;
 /**
  * Classe principale di diadia, un semplice gioco di ruolo ambientato al dia.
  * Per giocare crea un'istanza di questa classe e invoca il metodo gioca
@@ -58,35 +59,61 @@ public class DiaDia {
 	}	
 
 	public static void main(String[] argc) throws Exception {
-		
+
 		// Esercizio 20: Costrutto try-with-resources per chiudere lo Scanner in sicurezza
 		try (Scanner scanner = new Scanner(System.in)) {
-			
+
 			// FIX ESERCIZIO 20: Passiamo lo scanner appena creato dentro le parentesi
 			IO io = new IOConsole(scanner);
-			
+
+			// IL SUPER LABIRINTO!
 			Labirinto labirinto = Labirinto.newBuilder()
 					.addStanzaIniziale("Atrio")
-					.addAttrezzo("osso", 1)
+					.addAttrezzo("osso", 1) // Lo useremo per il cane
+
 					.addStanzaVincente("Biblioteca")
+
 					.addStanza("Aula N11")
+					.addAttrezzo("chiave", 1) // Serve per la stanza bloccata
+
 					.addStanza("Aula N10")
-					.addAttrezzo("lanterna", 3)
-					.addStanza("Laboratorio Campus")
+					.addAttrezzo("lanterna", 3) // Serve per la stanza buia
+
+					.addStanzaMagica("Laboratorio Campus", 2) // Stanza magica con soglia 2
+
+					.addStanzaBuia("Ripostiglio", "lanterna")
+
+					.addStanzaBloccata("Archivio Segreto", "nord", "chiave")
+
+					// Adiacenze standard
 					.addAdiacenza("Atrio", "Biblioteca", "nord")
-					.addAdiacenza("Atrio", "Aula N11", "est")
-					.addAdiacenza("Atrio", "Aula N10", "sud")
-					.addAdiacenza("Atrio", "Laboratorio Campus", "ovest")
-					.addAdiacenza("Aula N11", "Laboratorio Campus", "est")
-					.addAdiacenza("Aula N11", "Atrio", "ovest")
-					.addAdiacenza("Aula N10", "Atrio", "nord")
-					.addAdiacenza("Aula N10", "Aula N11", "est")
-					.addAdiacenza("Aula N10", "Laboratorio Campus", "ovest")
-					.addAdiacenza("Laboratorio Campus", "Atrio", "est")
-					.addAdiacenza("Laboratorio Campus", "Aula N11", "ovest")
 					.addAdiacenza("Biblioteca", "Atrio", "sud")
+
+					.addAdiacenza("Atrio", "Aula N11", "est")
+					.addAdiacenza("Aula N11", "Atrio", "ovest")
+
+					.addAdiacenza("Atrio", "Aula N10", "sud")
+					.addAdiacenza("Aula N10", "Atrio", "nord")
+
+					.addAdiacenza("Atrio", "Laboratorio Campus", "ovest")
+					.addAdiacenza("Laboratorio Campus", "Atrio", "est")
+
+					// Adiacenza Stanza Buia
+					.addAdiacenza("Aula N10", "Ripostiglio", "est")
+					.addAdiacenza("Ripostiglio", "Aula N10", "ovest")
+
+					// Adiacenza Stanza Bloccata
+					.addAdiacenza("Aula N11", "Archivio Segreto", "nord")
+					.addAdiacenza("Archivio Segreto", "Aula N11", "sud")
+					.addAdiacenza("Archivio Segreto", "Biblioteca", "nord") // L'uscita a nord dell'Archivio è BLOCCATA!
+
+					// Aggiungiamo i Personaggi
+					.addCane("Fuffi", "Grrr... bau bau!", "Aula N11")
+					.addStrega("Morgana", "Ihihihih! Sei venuto a farti bocciare?", "Aula N10")
+					.addMago("Merlino", "Saluti, giovane studente. Ho un dono per te.", "Laboratorio Campus", new Attrezzo("bacchetta", 1))
+
 					.getLabirinto();
-			
+
 			DiaDia gioco = new DiaDia(labirinto, io);
 			gioco.gioca();
 		} // <--- Fine del try-with-resources. Lo Scanner si chiude da solo qui senza memory leak
