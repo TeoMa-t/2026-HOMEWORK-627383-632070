@@ -1,90 +1,45 @@
 package it.uniroma3.diadia.ambienti;
 
-
 import java.util.HashMap;
 import java.util.Map;
 
 import it.uniroma3.diadia.attrezzi.Attrezzo;
-/*
- * Classe Labirinto - modella l'insieme delle stanze connesse
- * tra loro, e la presenza di strumenti nelle stanze
- * tiene conto della stanza vincente,e quella di partenza
- * 
- * @author 627383 - 632070
- * @version base
- */
+import it.uniroma3.diadia.personaggi.Cane;
+import it.uniroma3.diadia.personaggi.Mago;
+import it.uniroma3.diadia.personaggi.Strega;
 
 public class Labirinto {
 
-	private  Stanza stanzaIniziale;
-	private  Stanza stanzaVincente;
+	private Stanza stanzaIniziale;
+	private Stanza stanzaVincente;
 	private Map<String, Stanza> stanze;
 	
-	// Per creare un labirinto vuoto per i test
-	public Labirinto(String vuoto) {
-	    this.stanze = new HashMap<>();
-	}
-	
 	/**
-	 * Metodo statico per creare il Labirinto leggendolo da un file di testo (Esercizio 15)
+	 * COSTRUTTORE PRIVATO DI LABIRINTO! 
+	 * Nessuno da fuori può fare "new Labirinto()".
 	 */
-	public static Labirinto newBuilder(String nomeFile) throws Exception {
-		CaricatoreLabirinto caricatore = new CaricatoreLabirinto(nomeFile);
-		caricatore.carica();
-		return caricatore.getLabirinto();
-	}
-
-	/**
-	 * Crea tutte le stanze e le porte di collegamento
-	 */
-	public Labirinto() {
-
+	private Labirinto(String vuoto) {
 		this.stanze = new HashMap<>();
-
-		/* crea gli attrezzi */
-		Attrezzo lanterna = new Attrezzo("lanterna",3);
-		Attrezzo osso = new Attrezzo("osso",1);
-
-		/* crea stanze del labirinto */
-		Stanza atrio = new Stanza("Atrio");
-		Stanza aulaN11 = new Stanza("Aula N11");
-		Stanza aulaN10 = new Stanza("Aula N10");
-		Stanza laboratorio = new Stanza("Laboratorio Campus");
-		Stanza biblioteca = new Stanza("Biblioteca");
-
-		/* collega le stanze */
-		atrio.impostaStanzaAdiacente("nord", biblioteca);
-		atrio.impostaStanzaAdiacente("est", aulaN11);
-		atrio.impostaStanzaAdiacente("sud", aulaN10);
-		atrio.impostaStanzaAdiacente("ovest", laboratorio);
-		aulaN11.impostaStanzaAdiacente("est", laboratorio);
-		aulaN11.impostaStanzaAdiacente("ovest", atrio);
-		aulaN10.impostaStanzaAdiacente("nord", atrio);
-		aulaN10.impostaStanzaAdiacente("est", aulaN11);
-		aulaN10.impostaStanzaAdiacente("ovest", laboratorio);
-		laboratorio.impostaStanzaAdiacente("est", atrio);
-		laboratorio.impostaStanzaAdiacente("ovest", aulaN11);
-		biblioteca.impostaStanzaAdiacente("sud", atrio);
-
-		/* pone gli attrezzi nelle stanze */
-		aulaN10.addAttrezzo(lanterna);
-		atrio.addAttrezzo(osso);
-
-		// il gioco comincia nell'atrio
-		stanzaIniziale = atrio;
-		stanzaVincente = biblioteca;
 	}
-	//--------- Getter e Setter ----------
+
+	/**
+	 * FACTORY METHOD STATICO
+	 * L'unico modo per iniziare a costruire un labirinto è chiamare questo metodo.
+	 */
+	public static LabirintoBuilder newBuilder() {
+		return new LabirintoBuilder();
+	}
+
+	// --------- Getter e Setter di Labirinto ----------
 	
 	public Map<String, Stanza> getListaStanze() {
-    	return this.stanze;
-    }
+		return this.stanze;
+	}
 	
 	public Stanza getStanzaVincente() {
 		return this.stanzaVincente;
 	}
 
-    
 	public Stanza getStanzaIniziale() {
 		return this.stanzaIniziale;
 	}
@@ -99,17 +54,116 @@ public class Labirinto {
 		this.addStanza(stanza); 
 	}
 
-	// Metodo per aggiungere una stanza al catalogo del labirinto
 	public void addStanza(Stanza stanza) {
 		this.stanze.put(stanza.getNome(), stanza);
 	}
 
-	// Metodo per recuperare una stanza dal catalogo 
 	public Stanza getStanza(String nome) {
 		return this.stanze.get(nome);
 	}
 	
 	public int getNumeroStanze() {
-	    return this.stanze.size();
+		return this.stanze.size();
 	}
+
+
+	// ======================================================================
+	// INIZIO CLASSE NIDIFICATA STATICA (Tutto il Builder ora vive qui dentro!)
+	// ======================================================================
+	public static class LabirintoBuilder {
+		
+		private Labirinto labirinto; // Torna ad essere di tipo Labirinto!
+		private Stanza ultimaStanzaAggiunta;
+
+		public LabirintoBuilder() {
+			// Il builder può chiamare il costruttore privato perché è una classe nidificata
+			this.labirinto = new Labirinto("vuoto"); 
+		}
+
+		public LabirintoBuilder addStanzaIniziale(String nome) {
+			Stanza stanza = new Stanza(nome);
+			this.labirinto.setStanzaIniziale(stanza);
+			this.labirinto.addStanza(stanza);
+			this.ultimaStanzaAggiunta = stanza;
+			return this; 
+		}
+
+		public LabirintoBuilder addStanzaVincente(String nome) {
+			Stanza stanza = new Stanza(nome);
+			this.labirinto.setStanzaVincente(stanza);
+			this.labirinto.addStanza(stanza);
+			this.ultimaStanzaAggiunta = stanza;
+			return this;
+		}
+		
+		public LabirintoBuilder addStanzaBloccata(String nome, Direzione direzione, String chiave) {
+			Stanza stanza = new StanzaBloccata(nome, direzione, chiave);
+			this.labirinto.addStanza(stanza);
+			this.ultimaStanzaAggiunta = stanza;
+			return this;
+		}
+		
+		public LabirintoBuilder addStanzaMagica(String nome, int soglia) {
+			Stanza stanza = new StanzaMagica(nome, soglia);
+			this.labirinto.addStanza(stanza);
+			this.ultimaStanzaAggiunta = stanza;
+			return this;
+		}
+
+		public LabirintoBuilder addStanza(String nome) {
+			Stanza stanza = new Stanza(nome);
+			this.labirinto.addStanza(stanza); 
+			this.ultimaStanzaAggiunta = stanza;
+			return this;
+		}
+		
+		public LabirintoBuilder addStanzaBuia(String nome, String AttrezzoLuminoso) {
+			Stanza stanza = new StanzaBuia(nome, AttrezzoLuminoso);
+			this.labirinto.addStanza(stanza); 
+			this.ultimaStanzaAggiunta = stanza;
+			return this;
+		}
+
+		public Labirinto getLabirinto() {
+			return this.labirinto;
+		}
+
+		public Map<String , Stanza> getListaStanze() {
+			return this.labirinto.getListaStanze();
+		}
+
+		public LabirintoBuilder addAttrezzo(String nome, int peso) {
+			Attrezzo attrezzo = new Attrezzo(nome, peso);
+			this.ultimaStanzaAggiunta.addAttrezzo(attrezzo);
+			return this;
+		}
+
+		public LabirintoBuilder addAdiacenza(String stanzaSorgente, String stanzaDestinazione, Direzione direzione) {
+			Stanza s1 = this.labirinto.getStanza(stanzaSorgente);
+			Stanza s2 = this.labirinto.getStanza(stanzaDestinazione);
+			s1.impostaStanzaAdiacente(direzione, s2);
+			return this;
+		}
+		
+		public LabirintoBuilder addMago(String nome, String presentazione, String nomeStanza, Attrezzo attrezzo) {
+			Mago mago = new Mago(nome, presentazione, attrezzo);
+			this.getListaStanze().get(nomeStanza).setPersonaggio(mago);
+			return this;
+		}
+
+		public LabirintoBuilder addCane(String nome, String presentazione, String nomeStanza) {
+			Cane cane = new Cane(nome, presentazione);
+			this.getListaStanze().get(nomeStanza).setPersonaggio(cane);
+			return this;
+		}
+
+		public LabirintoBuilder addStrega(String nome, String presentazione, String nomeStanza) {
+			Strega strega = new Strega(nome, presentazione);
+			this.getListaStanze().get(nomeStanza).setPersonaggio(strega);
+			return this;
+		}
+	}
+	// ======================================================================
+	// FINE CLASSE NIDIFICATA STATICA
+	// ======================================================================
 }

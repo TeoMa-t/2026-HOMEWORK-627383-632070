@@ -1,8 +1,9 @@
 package it.uniroma3.diadia;
-import it.uniroma3.diadia.ambienti.Labirinto;
 
+import it.uniroma3.diadia.ambienti.Labirinto;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.giocatore.Giocatore;
+import it.uniroma3.diadia.ambienti.Direzione;
 
 /**
  * Questa classe modella una partita del gioco
@@ -11,20 +12,21 @@ import it.uniroma3.diadia.giocatore.Giocatore;
  * @see Stanza
  * @version base
  */
-
 public class Partita {
-
-
 
 	private Stanza stanzaCorrente;
 	private Labirinto labirinto;
 	private Giocatore giocatore;
-
 	private boolean finita;
 
 	//--------- Costruttore ----------
 	public Partita() {
-		this(new Labirinto());
+		// AL POSTO DI "new Labirinto()", usiamo il builder per un livello minimale
+		this(Labirinto.newBuilder()
+				.addStanzaIniziale("Atrio")
+				.addStanzaVincente("Biblioteca")
+				.addAdiacenza("Atrio", "Biblioteca", Direzione.NORD)
+				.getLabirinto());
 	}
 	
 	public Partita(Labirinto labirinto){
@@ -32,14 +34,10 @@ public class Partita {
 		this.finita = false;
 		this.giocatore= new Giocatore();
 		this.setStanzaCorrente(labirinto.getStanzaIniziale());
-
-
 	}
-
 
 	//---------- Getter e Setter ----------
 	public Stanza getStanzaVincente() {
-
 		return this.labirinto.getStanzaVincente();
 	}
 
@@ -62,40 +60,24 @@ public class Partita {
 	public Labirinto getLabirinto() {
 		return this.labirinto;
 	}
+
 	//--------- Metodi ---------
-	/**
-	 * Restituisce vero se e solo se la partita e' stata vinta
-	 * @return vero se partita vinta
-	 */
 	public boolean vinta() {
 		return this.getStanzaCorrente() == labirinto.getStanzaVincente();
 	}
 
-	/**
-	 * Restituisce vero se e solo se la partita e' finita
-	 * @return vero se partita finita
-	 */
 	public boolean isFinita() {
 		return finita || vinta() || (this.giocatore.getCfu() == 0);
 	}
 
-	/**
-	 * Imposta la partita come finita
-	 */
 	public void setFinita() {
 		this.finita = true;
 	}
-	/**
-	 * Metodo delegato: Partita chiede al Giocatore quanti CFU ha
-	 */
+	
 	public int getCfu() {
 		return this.giocatore.getCfu();
 	}
 
-	/**
-	 * Metodo delegato: Partita dice al Giocatore di aggiornare i suoi CFU
-	 * @param cfu
-	 */
 	public void setCfu(int cfu) {
 		this.giocatore.setCfu(cfu);		
 	}
@@ -105,6 +87,4 @@ public class Partita {
 			return false;
 		return true;
 	}
-
-
 }

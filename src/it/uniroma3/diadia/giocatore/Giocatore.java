@@ -1,5 +1,6 @@
 package it.uniroma3.diadia.giocatore;
 
+import it.uniroma3.diadia.Configurazione;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
 /*
@@ -22,7 +23,7 @@ public class Giocatore {
 		this(CFU_INIZIALI);
 	}
 	public Giocatore(int cfu) {
-		this.cfu= cfu;
+		this.cfu = Configurazione.getCFU();
 		this.borsa = new Borsa();
 	}
 
