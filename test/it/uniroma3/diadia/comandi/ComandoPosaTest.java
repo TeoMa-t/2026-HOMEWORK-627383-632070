@@ -10,7 +10,6 @@ import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.ambienti.Labirinto;
-import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
 class ComandoPosaTest {
@@ -21,10 +20,11 @@ class ComandoPosaTest {
 	
 	@BeforeEach
 	public void setUp() throws Exception {
-		this.io = new IOConsole();
+		// TORNATO ALLA NORMALITA': Nessuno scanner tra le parentesi!
+		this.io = new IOConsole(); 
 		this.comandoPosa = new ComandoPosa();
 		
-		Labirinto monolocale = new LabirintoBuilder()
+		Labirinto monolocale = Labirinto.newBuilder()
 				.addStanzaIniziale("Aula N10")
 				.getLabirinto();
 		
@@ -44,7 +44,7 @@ class ComandoPosaTest {
 	
 	@Test 
 	public void testPosaAttrezzoStanzaPiena() {
-		LabirintoBuilder builder = new LabirintoBuilder().addStanzaIniziale("Aula N10");
+		Labirinto.LabirintoBuilder builder = Labirinto.newBuilder().addStanzaIniziale("Aula N10");
 		for(int i = 0; i < 10 ; i++) {
 			builder.addAttrezzo("oggetto" + i, 1);
 		}

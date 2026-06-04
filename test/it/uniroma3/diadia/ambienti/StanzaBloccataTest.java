@@ -1,6 +1,7 @@
 package it.uniroma3.diadia.ambienti;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull; // Aggiunto per l'ultimo test
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,32 +16,31 @@ class StanzaBloccataTest {
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		this.stanzaBloccata = new StanzaBloccata("Cella", "nord", "chiave");
+		// FIX: Sostituisco "nord" con Direzione.NORD
+		this.stanzaBloccata = new StanzaBloccata("Cella", Direzione.NORD, "chiave");
 		this.stanzaAdiacente = new Stanza("Corridoio");
 		this.passepartout = new Attrezzo("chiave", 1);
 		
-		// Impostiamo la stanza adiacente a nord
-		this.stanzaBloccata.impostaStanzaAdiacente("nord", stanzaAdiacente);
+		// FIX: Impostiamo la stanza adiacente con l'enum
+		this.stanzaBloccata.impostaStanzaAdiacente(Direzione.NORD, stanzaAdiacente);
 	}
 
 	@Test
 	public void testGetStanzaAdiacenteDirezioneBloccata() {
-		// Senza chiave, se vado a nord devo rimanere bloccato nella Cella
-		assertEquals(stanzaBloccata, stanzaBloccata.getStanzaAdiacente("nord"));
+		// FIX: Uso Direzione.NORD
+		assertEquals(stanzaBloccata, stanzaBloccata.getStanzaAdiacente(Direzione.NORD));
 	}
 
 	@Test
 	public void testGetStanzaAdiacenteDirezioneSbloccata() {
-		// Aggiungo la chiave nella stanza
 		this.stanzaBloccata.addAttrezzo(passepartout);
-		// Ora se vado a nord devo trovarmi nel Corridoio
-		assertEquals(stanzaAdiacente, stanzaBloccata.getStanzaAdiacente("nord"));
+		// FIX: Uso Direzione.NORD
+		assertEquals(stanzaAdiacente, stanzaBloccata.getStanzaAdiacente(Direzione.NORD));
 	}
     
     @Test
 	public void testGetStanzaAdiacenteDirezioneLibera() {
-        // Se vado in una direzione non bloccata (es. sud), non devo avere la stanza corrente
-        // (ritornerà null perché non c'è nulla a sud, ma l'importante è che non sia la stanza bloccata)
-        assertEquals(null, stanzaBloccata.getStanzaAdiacente("sud"));
+        // FIX: Uso Direzione.SUD al posto di "sud"
+        assertNull(stanzaBloccata.getStanzaAdiacente(Direzione.SUD));
     }
 }

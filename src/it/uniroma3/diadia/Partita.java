@@ -3,7 +3,6 @@ package it.uniroma3.diadia;
 import it.uniroma3.diadia.ambienti.Labirinto;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.giocatore.Giocatore;
-import it.uniroma3.diadia.ambienti.Direzione;
 
 /**
  * Questa classe modella una partita del gioco
@@ -21,11 +20,11 @@ public class Partita {
 
 	//--------- Costruttore ----------
 	public Partita() {
-		// AL POSTO DI "new Labirinto()", usiamo il builder per un livello minimale
+		// FIX: Passiamo la Stringa "nord", ci pensa il Builder a farla diventare Enum!
 		this(Labirinto.newBuilder()
 				.addStanzaIniziale("Atrio")
 				.addStanzaVincente("Biblioteca")
-				.addAdiacenza("Atrio", "Biblioteca", Direzione.NORD)
+				.addAdiacenza("Atrio", "Biblioteca", "nord")
 				.getLabirinto());
 	}
 	

@@ -6,18 +6,24 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.StringReader;
 
 import org.junit.jupiter.api.Test;
-
+ 
 public class CaricatoreLabirintoTest {
 
     @Test
     public void testCaricatoreMonolocale() throws Exception {
-        // Fixture monolocale (1 stanza, 1 attrezzo, 0 uscite)
+        // Aggiunti TUTTI i marker nell'ordine esatto richiesto dal metodo carica()
         String labirinto = 
             "Stanze: atrio\n" +
+            "StanzeMagiche:\n" +
+            "StanzeBuie:\n" +
+            "StanzeBloccate:\n" +
             "Inizio: atrio\n" +
             "Vincente: atrio\n" +
             "Attrezzi: spada 5 atrio\n" +
-            "Uscite:\n"; // Vuoto ma la riga deve esserci
+            "Uscite:\n" +
+            "Maghi:\n" +
+            "Cani:\n" +
+            "Streghe:\n";
         
         CaricatoreLabirinto caricatore = new CaricatoreLabirinto(new StringReader(labirinto));
         caricatore.carica();
@@ -29,13 +35,19 @@ public class CaricatoreLabirintoTest {
     
     @Test
     public void testCaricatoreBilocale() throws Exception {
-        // Fixture bilocale (2 stanze, 0 attrezzi, 2 uscite incrociate)
+        // Aggiunti TUTTI i marker nell'ordine esatto richiesto dal metodo carica()
         String labirinto = 
             "Stanze: atrio, biblioteca\n" +
+            "StanzeMagiche:\n" +
+            "StanzeBuie:\n" +
+            "StanzeBloccate:\n" +
             "Inizio: atrio\n" +
             "Vincente: biblioteca\n" +
             "Attrezzi: \n" +
-            "Uscite: atrio nord biblioteca, biblioteca sud atrio\n";
+            "Uscite: atrio nord biblioteca, biblioteca sud atrio\n" +
+            "Maghi:\n" +
+            "Cani:\n" +
+            "Streghe:\n";
         
         CaricatoreLabirinto caricatore = new CaricatoreLabirinto(new StringReader(labirinto));
         caricatore.carica();
@@ -43,8 +55,7 @@ public class CaricatoreLabirintoTest {
         assertEquals("atrio", caricatore.getLabirinto().getStanzaIniziale().getNome());
         assertEquals("biblioteca", caricatore.getLabirinto().getStanzaVincente().getNome());
         
-        // Verifica dei collegamenti
-        assertEquals("biblioteca", caricatore.getLabirinto().getStanzaIniziale().getStanzaAdiacente("nord").getNome());
-        assertEquals("atrio", caricatore.getLabirinto().getStanzaVincente().getStanzaAdiacente("sud").getNome());
+        assertEquals("biblioteca", caricatore.getLabirinto().getStanzaIniziale().getStanzaAdiacente(Direzione.NORD).getNome());
+        assertEquals("atrio", caricatore.getLabirinto().getStanzaVincente().getStanzaAdiacente(Direzione.SUD).getNome());
     }
 }

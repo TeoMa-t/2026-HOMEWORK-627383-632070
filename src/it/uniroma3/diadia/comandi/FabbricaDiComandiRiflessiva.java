@@ -17,7 +17,7 @@ public class FabbricaDiComandiRiflessiva implements FabbricaDiComandi {
             parametro = scannerDiParole.next();   // seconda parola: eventuale parametro
             
         // Se non è stato inserito nulla, potresti gestire l'errore o restituire un comando vuoto/non valido
-        if (nomeComando == null) return new ComandoNonValido(); // Aggiunto per sicurezza
+        if (nomeComando == null) return new ComandoNonvalido(); // Aggiunto per sicurezza
 
         StringBuilder nomeClasse = new StringBuilder("it.uniroma3.diadia.comandi.Comando");
         // Mette la prima lettera in maiuscolo (es. 'v' -> 'V')
@@ -33,7 +33,7 @@ public class FabbricaDiComandiRiflessiva implements FabbricaDiComandi {
         comando = (Comando) Class.forName(nomeClasse.toString()).getDeclaredConstructor().newInstance();
         }
         catch (ClassNotFoundException e){
-        	comando = new ComandoNonValido();
+        	comando = new ComandoNonvalido();
         }
         catch(Exception e) {
         	System.out.println("Errore inaspettato!");

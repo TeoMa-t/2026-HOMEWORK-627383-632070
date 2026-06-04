@@ -1,7 +1,8 @@
 package it.uniroma3.diadia;
 
+import java.util.Scanner;
+
 import it.uniroma3.diadia.ambienti.Labirinto;
-import it.uniroma3.diadia.ambienti.Direzione;
 import it.uniroma3.diadia.comandi.Comando;
 import it.uniroma3.diadia.comandi.FabbricaDiComandi;
 import it.uniroma3.diadia.comandi.FabbricaDiComandiRiflessiva;
@@ -57,39 +58,37 @@ public class DiaDia {
 	}	
 
 	public static void main(String[] argc) throws Exception {
-		IO io = new IOConsole();
 		
-		// Sfruttiamo il Builder nidificato per ricreare il livello classico!
-		// Nota: addAttrezzo aggiunge l'oggetto all'ultima stanza dichiarata
-		Labirinto labirinto = Labirinto.newBuilder()
-				.addStanzaIniziale("Atrio")
-				.addAttrezzo("osso", 1)
-				.addStanzaVincente("Biblioteca")
-				.addStanza("Aula N11")
-				.addStanza("Aula N10")
-				.addAttrezzo("lanterna", 3)
-				.addStanza("Laboratorio Campus")
-				.addAdiacenza("Atrio", "Biblioteca", Direzione.NORD)
-				.addAdiacenza("Atrio", "Aula N11", Direzione.EST)
-				.addAdiacenza("Atrio", "Aula N10", Direzione.SUD)
-				.addAdiacenza("Atrio", "Laboratorio Campus", Direzione.OVEST)
-				.addAdiacenza("Aula N11", "Laboratorio Campus", Direzione.EST)
-				.addAdiacenza("Aula N11", "Atrio", Direzione.OVEST)
-				.addAdiacenza("Aula N10", "Atrio", Direzione.NORD)
-				.addAdiacenza("Aula N10", "Aula N11", Direzione.EST)
-				.addAdiacenza("Aula N10", "Laboratorio Campus", Direzione.OVEST)
-				.addAdiacenza("Laboratorio Campus", "Atrio", Direzione.EST)
-				.addAdiacenza("Laboratorio Campus", "Aula N11", Direzione.OVEST)
-				.addAdiacenza("Biblioteca", "Atrio", Direzione.SUD)
-				.getLabirinto();
-		
-		/* N.B. In alternativa, per usare i file .txt, ti basterà fare:
-		 * CaricatoreLabirinto c = new CaricatoreLabirinto("labirinto.txt");
-		 * c.carica();
-		 * Labirinto labirinto = c.getLabirinto();
-		 */
-
-		DiaDia gioco = new DiaDia(labirinto, io);
-		gioco.gioca();
+		// Esercizio 20: Costrutto try-with-resources per chiudere lo Scanner in sicurezza
+		try (Scanner scanner = new Scanner(System.in)) {
+			
+			// FIX ESERCIZIO 20: Passiamo lo scanner appena creato dentro le parentesi
+			IO io = new IOConsole(scanner);
+			
+			Labirinto labirinto = Labirinto.newBuilder()
+					.addStanzaIniziale("Atrio")
+					.addAttrezzo("osso", 1)
+					.addStanzaVincente("Biblioteca")
+					.addStanza("Aula N11")
+					.addStanza("Aula N10")
+					.addAttrezzo("lanterna", 3)
+					.addStanza("Laboratorio Campus")
+					.addAdiacenza("Atrio", "Biblioteca", "nord")
+					.addAdiacenza("Atrio", "Aula N11", "est")
+					.addAdiacenza("Atrio", "Aula N10", "sud")
+					.addAdiacenza("Atrio", "Laboratorio Campus", "ovest")
+					.addAdiacenza("Aula N11", "Laboratorio Campus", "est")
+					.addAdiacenza("Aula N11", "Atrio", "ovest")
+					.addAdiacenza("Aula N10", "Atrio", "nord")
+					.addAdiacenza("Aula N10", "Aula N11", "est")
+					.addAdiacenza("Aula N10", "Laboratorio Campus", "ovest")
+					.addAdiacenza("Laboratorio Campus", "Atrio", "est")
+					.addAdiacenza("Laboratorio Campus", "Aula N11", "ovest")
+					.addAdiacenza("Biblioteca", "Atrio", "sud")
+					.getLabirinto();
+			
+			DiaDia gioco = new DiaDia(labirinto, io);
+			gioco.gioca();
+		} // <--- Fine del try-with-resources. Lo Scanner si chiude da solo qui senza memory leak
 	}
 }

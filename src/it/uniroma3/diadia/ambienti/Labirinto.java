@@ -13,7 +13,7 @@ public class Labirinto {
 	private Stanza stanzaIniziale;
 	private Stanza stanzaVincente;
 	private Map<String, Stanza> stanze;
-	
+
 	/**
 	 * COSTRUTTORE PRIVATO DI LABIRINTO! 
 	 * Nessuno da fuori può fare "new Labirinto()".
@@ -31,11 +31,11 @@ public class Labirinto {
 	}
 
 	// --------- Getter e Setter di Labirinto ----------
-	
+
 	public Map<String, Stanza> getListaStanze() {
 		return this.stanze;
 	}
-	
+
 	public Stanza getStanzaVincente() {
 		return this.stanzaVincente;
 	}
@@ -61,7 +61,7 @@ public class Labirinto {
 	public Stanza getStanza(String nome) {
 		return this.stanze.get(nome);
 	}
-	
+
 	public int getNumeroStanze() {
 		return this.stanze.size();
 	}
@@ -71,7 +71,7 @@ public class Labirinto {
 	// INIZIO CLASSE NIDIFICATA STATICA (Tutto il Builder ora vive qui dentro!)
 	// ======================================================================
 	public static class LabirintoBuilder {
-		
+
 		private Labirinto labirinto; // Torna ad essere di tipo Labirinto!
 		private Stanza ultimaStanzaAggiunta;
 
@@ -95,14 +95,18 @@ public class Labirinto {
 			this.ultimaStanzaAggiunta = stanza;
 			return this;
 		}
-		
-		public LabirintoBuilder addStanzaBloccata(String nome, Direzione direzione, String chiave) {
-			Stanza stanza = new StanzaBloccata(nome, direzione, chiave);
+
+		public LabirintoBuilder addStanzaBloccata(String nome, String direzione, String chiave) {
+
+			// Trasforma la stringa in Enum!
+			Direzione dirEnum = Direzione.valueOf(direzione.toUpperCase());
+
+			Stanza stanza = new StanzaBloccata(nome, dirEnum, chiave);
 			this.labirinto.addStanza(stanza);
 			this.ultimaStanzaAggiunta = stanza;
 			return this;
 		}
-		
+
 		public LabirintoBuilder addStanzaMagica(String nome, int soglia) {
 			Stanza stanza = new StanzaMagica(nome, soglia);
 			this.labirinto.addStanza(stanza);
@@ -116,7 +120,7 @@ public class Labirinto {
 			this.ultimaStanzaAggiunta = stanza;
 			return this;
 		}
-		
+
 		public LabirintoBuilder addStanzaBuia(String nome, String AttrezzoLuminoso) {
 			Stanza stanza = new StanzaBuia(nome, AttrezzoLuminoso);
 			this.labirinto.addStanza(stanza); 
@@ -138,13 +142,17 @@ public class Labirinto {
 			return this;
 		}
 
-		public LabirintoBuilder addAdiacenza(String stanzaSorgente, String stanzaDestinazione, Direzione direzione) {
+		public LabirintoBuilder addAdiacenza(String stanzaSorgente, String stanzaDestinazione, String direzione) {
 			Stanza s1 = this.labirinto.getStanza(stanzaSorgente);
 			Stanza s2 = this.labirinto.getStanza(stanzaDestinazione);
-			s1.impostaStanzaAdiacente(direzione, s2);
+
+			// Trasforma la stringa in Enum!
+			Direzione dirEnum = Direzione.valueOf(direzione.toUpperCase());
+
+			s1.impostaStanzaAdiacente(dirEnum, s2);
 			return this;
 		}
-		
+
 		public LabirintoBuilder addMago(String nome, String presentazione, String nomeStanza, Attrezzo attrezzo) {
 			Mago mago = new Mago(nome, presentazione, attrezzo);
 			this.getListaStanze().get(nomeStanza).setPersonaggio(mago);

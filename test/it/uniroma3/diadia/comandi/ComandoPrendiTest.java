@@ -10,7 +10,6 @@ import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.ambienti.Labirinto;
-import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 
 class ComandoPrendiTest {
 	
@@ -19,13 +18,15 @@ class ComandoPrendiTest {
 	
 	@BeforeEach
 	public void setUp() throws Exception {
+		// IOConsole rimane con le tonde vuote!
 		this.io = new IOConsole();
 		this.comandoPrendi = new ComandoPrendi();
 	}
 	
 	@Test
 	public void testPrendiAttrezzoEsistente() {
-		Labirinto monolocale = new LabirintoBuilder()
+		// FIX: Usiamo Labirinto.newBuilder()
+		Labirinto monolocale = Labirinto.newBuilder()
 				.addStanzaIniziale("Aula N10")
 				.addAttrezzo("Osso", 1)
 				.getLabirinto();
@@ -41,7 +42,8 @@ class ComandoPrendiTest {
 	
 	@Test
 	public void testPrendiAttrezzoNonEsistente() {
-		Labirinto monolocale = new LabirintoBuilder()
+		// FIX: Usiamo Labirinto.newBuilder()
+		Labirinto monolocale = Labirinto.newBuilder()
 				.addStanzaIniziale("Aula N10")
 				.getLabirinto();
 		
@@ -55,7 +57,8 @@ class ComandoPrendiTest {
 	
 	@Test
 	public void testPrendiAttrezzoSenzaParametro() {
-		Labirinto monolocale = new LabirintoBuilder()
+		// FIX: Usiamo Labirinto.newBuilder()
+		Labirinto monolocale = Labirinto.newBuilder()
 				.addStanzaIniziale("Aula N10")
 				.addAttrezzo("Osso", 1)
 				.getLabirinto();

@@ -2,7 +2,6 @@ package it.uniroma3.diadia;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,18 +19,23 @@ class DiaDiaTest {
 		
 		// 2. Creiamo il finto I/O passandogli la lista di comandi
 		IOSimulator io = new IOSimulator(comandiDaEseguire);
-		Labirinto labirinto = new Labirinto();
 		
-		// 3. Facciamo partire il gioco passandogli il finto I/O
-		DiaDia gioco = new DiaDia(labirinto, io);
+		// 3. LA SOLUZIONE DEFINITIVA!
+		// Usiamo il Factory Method statico (newBuilder) e il Builder annidato 
+		// per creare un labirinto minimo che non faccia crashare il gioco
+		Labirinto labirintoMinimo = Labirinto.newBuilder()
+				.addStanzaIniziale("AtrioFinto")
+				.getLabirinto();
+		
+		// 4. Facciamo partire il gioco passandogli il labirinto appena costruito
+		DiaDia gioco = new DiaDia(labirintoMinimo, io);
 		gioco.gioca();
 		
-		// 4. Verifichiamo l'output!
-		// Sappiamo che quando si digita "fine", il gioco stampa "Grazie di aver giocato!"
-		// Usiamo il metodo contains per vedere se in TUTTI i messaggi salvati c'è quello di fine.
+		// 5. Verifichiamo l'output!
 		boolean messaggioFineTrovato = false;
 		for(String messaggio : io.getMessaggiProdotti()) {
-			if(messaggio.contains("Grazie per aver giocato")) {
+			// N.B: Assicurati che la frase sia ESATTAMENTE quella stampata dal tuo ComandoFine
+			if(messaggio.contains("Grazie per aver giocato")) { 
 				messaggioFineTrovato = true;
 				break;
 			}

@@ -179,16 +179,12 @@ public class CaricatoreLabirinto {
 		return "Terminazione precoce del file prima di leggere "+msg;
 	}
 
-	// CONVERSIONE STRINGA -> ENUM Direzione AGGIUNTA QUI
 	private void impostaUscita(String stanzaDa, String dir, String nomeA) throws FormatoFileNonValidoException {
 		check(isStanzaValida(stanzaDa),"Stanza di partenza sconosciuta "+dir);
 		check(isStanzaValida(nomeA),"Stanza di destinazione sconosciuta "+ dir);
-		try {
-			Direzione direzione = Direzione.valueOf(dir.toUpperCase());
-			this.builder.addAdiacenza(stanzaDa, nomeA, direzione);
-		} catch (IllegalArgumentException e) {
-			throw new FormatoFileNonValidoException("Direzione inesistente: " + dir);
-		}
+		
+		// Nessuna conversione qui! Passiamo la stringa 'dir' grezza. Ci pensa il Builder!
+		this.builder.addAdiacenza(stanzaDa, nomeA, dir);
 	}
 
 	final private void check(boolean condizioneCheDeveEsseraVera, String messaggioErrore) throws FormatoFileNonValidoException {
@@ -225,15 +221,8 @@ public class CaricatoreLabirinto {
 				check(scanner.hasNext(), msgTerminazionePrecoce("l'attrezzo sbloccante in " + nomeStanza));
 				String chiave = scanner.next();
 
-				// CONVERSIONE STRINGA -> ENUM Direzione AGGIUNTA QUI
-				Direzione direzione;
-				try {
-					direzione = Direzione.valueOf(direzioneStr.toUpperCase());
-				} catch (IllegalArgumentException e) {
-					throw new FormatoFileNonValidoException("Direzione inesistente per la stanza bloccata: " + direzioneStr);
-				}
-
-				this.builder.addStanzaBloccata(nomeStanza, direzione, chiave);
+				// Nessuna conversione qui! Passiamo la stringa 'direzioneStr' grezza. Ci pensa il Builder!
+				this.builder.addStanzaBloccata(nomeStanza, direzioneStr, chiave);
 			}
 		}
 	}

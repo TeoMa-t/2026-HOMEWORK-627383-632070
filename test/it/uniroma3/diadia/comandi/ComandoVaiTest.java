@@ -9,7 +9,6 @@ import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.ambienti.Labirinto;
-import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 
 class ComandoVaiTest {
 	
@@ -18,16 +17,18 @@ class ComandoVaiTest {
 	
 	@BeforeEach
 	public void setUp() throws Exception {
+		// IOConsole rimane con le tonde vuote!
 		this.io = new IOConsole();
 		this.comandoVai = new ComandoVai();
 	}
 
 	@Test
 	public void testSpostamentoInStanzaEsistente_Bilocale() {
-		Labirinto bilocale = new LabirintoBuilder()
+		// FIX: Usiamo Labirinto.newBuilder()
+		Labirinto bilocale = Labirinto.newBuilder()
 				.addStanzaIniziale("Aula N10")
 				.addStanza("Laboratorio")
-				.addAdiacenza("Aula N10", "Laboratorio", "nord")
+				.addAdiacenza("Aula N10", "Laboratorio", "nord") // Qui il nostro Builder "intelligente" trasformerà "nord" nell'enum!
 				.getLabirinto();
 		
 		Partita partita = new Partita(bilocale);
@@ -40,7 +41,8 @@ class ComandoVaiTest {
 	
 	@Test
 	public void testSpostamentoInStanzaNonEsistente_Monolocale() {
-		Labirinto monolocale = new LabirintoBuilder()
+		// FIX: Usiamo Labirinto.newBuilder()
+		Labirinto monolocale = Labirinto.newBuilder()
 				.addStanzaIniziale("Aula N10")
 				.getLabirinto();
 		
@@ -54,7 +56,8 @@ class ComandoVaiTest {
 	
 	@Test
 	public void testSpostamentoSenzaDirezione() {
-		Labirinto monolocale = new LabirintoBuilder()
+		// FIX: Usiamo Labirinto.newBuilder()
+		Labirinto monolocale = Labirinto.newBuilder()
 				.addStanzaIniziale("Aula N10")
 				.getLabirinto();
 		
